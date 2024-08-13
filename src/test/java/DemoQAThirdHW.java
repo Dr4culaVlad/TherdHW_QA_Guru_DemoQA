@@ -20,7 +20,7 @@ public class DemoQAThirdHW {
     String lastName = "Bogrov";
     String fullName = name + " " + lastName;
     String mail = "mailq@mail.com";
-    String numaber = "1390846575";
+    String number = "1390846575";
     String fileName = "ScreenshotHW1.png";
     String address = "ulitsa Pushkina, dom Kolotoshkina";
 
@@ -29,15 +29,16 @@ public class DemoQAThirdHW {
     @Test
     void allFormCompleteTest() {
         open("https://demoqa.com/automation-practice-form");
+        executeJavaScript("document.querySelector('#fixedban').style.display='none';");
 
-        $("input[id=firstName]").setValue(name);
-        $("input[id=lastName]").setValue(lastName);
-        $("input[id=userEmail]").setValue(mail);
+        $("[id=firstName]").setValue(name);
+        $("[id=lastName]").setValue(lastName);
+        $("[id=userEmail]").setValue(mail);
 
-        $("div#genterWrapper").$(byText("Other")).click();
-        $("input[id=userNumber]").setValue(numaber);
+        $("#genterWrapper").$(byText("Other")).click();
+        $("[id=userNumber]").setValue(number);
 
-        $("input[id=dateOfBirthInput]").click();
+        $("[id=dateOfBirthInput]").click();
         $(".react-datepicker__year-select").selectOption("1990");
         $(".react-datepicker__month-select").selectOption("May");
         $(".react-datepicker__month").$(byText("16")).click();
@@ -45,7 +46,7 @@ public class DemoQAThirdHW {
         $("#subjectsInput").setValue("b");
         $("#react-select-2-option-0").click();
 
-        $("#hobbiesWrapper").$(byText("Reading")).click();
+        $("#hobbiesWrapper").scrollIntoView(true).$(byText("Reading")).click();
 
         $("#uploadPicture").uploadFromClasspath(fileName);
 
@@ -56,13 +57,12 @@ public class DemoQAThirdHW {
         $("#city").click();
         $("#react-select-4-option-1").click();
 
-        executeJavaScript("document.querySelector('#fixedban').style.display='none';");
         $("#submit").click();
 
         $(".table-responsive").shouldHave(text("Student Name" +" "+ fullName));
         $(".table-responsive").shouldHave(text("Student Email" +" "+ mail));
         $(".table-responsive").shouldHave(text("Gender Other"));
-        $(".table-responsive").shouldHave(text("Mobile" +" "+ numaber));
+        $(".table-responsive").shouldHave(text("Mobile" +" "+ number));
         $(".table-responsive").shouldHave(text("Date of Birth 16 May,1990"));
         $(".table-responsive").shouldHave(text("Subjects Biology"));
         $(".table-responsive").shouldHave(text("Gender Other"));
